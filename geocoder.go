@@ -122,8 +122,8 @@ func httpRequest(url string) (structs.Results, error) {
 	return results, nil
 }
 
-// Geocoding function is used to convert an Address structure to a
-// Location structure (latitude and longitude)
+// Geocoding function is used to convert an Address structure
+// to a Location structure (latitude and longitude)
 func Geocoding(address Address) (Location, error) {
 
 	var location Location

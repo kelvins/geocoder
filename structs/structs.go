@@ -8,7 +8,7 @@ type Results struct {
 	Status  string   `json:"status"`
 }
 
-// Each result from the JSON
+// Result store each result from the JSON
 type Result struct {
 	AddressComponents []Address `json:"address_components"`
 	FormattedAddress  string    `json:"formatted_address"`
@@ -17,14 +17,14 @@ type Result struct {
 	Types             []string  `json:"types"`
 }
 
-// Each address is identified by the 'types'
+// Address store each address is identified by the 'types'
 type Address struct {
 	LongName  string   `json:"long_name"`
 	ShortName string   `json:"short_name"`
 	Types     []string `json:"types"`
 }
 
-// Each value in the geometry
+// Geometry store each value in the geometry
 type Geometry struct {
 	Bounds       Bounds `json:"bounds"`
 	Location     LatLng `json:"location"`
@@ -38,7 +38,7 @@ type Bounds struct {
 	Southwest LatLng `json:"southwest"`
 }
 
-// Latitude and Longitude
+// LatLng store the latitude and longitude
 type LatLng struct {
 	Lat float64 `json:"lat"`
 	Lng float64 `json:"lng"`
