@@ -13,7 +13,7 @@ import (
 )
 
 var geocodeApiUrl string
-var Key string
+var ApiKey string
 
 // Define the Geocode API URL
 func init() {
@@ -131,8 +131,8 @@ func Geocoding(address Address) (Location, error) {
 
 	// Create the URL based on the formated address
 	url := geocodeApiUrl + "address=" + formatedAddress
-	if Key != "" {
-		url += "&key=" + Key
+	if ApiKey != "" {
+		url += "&key=" + ApiKey
 	}
 
 	results, err := httpRequest(url)
@@ -204,8 +204,8 @@ func GeocodingReverse(location Location) ([]Address, error) {
 	longitude := strconv.FormatFloat(location.Longitude, 'f', 8, 64)
 
 	url := geocodeApiUrl + "latlng=" + latitude + "," + longitude
-	if Key != "" {
-		url += "&key=" + Key
+	if ApiKey != "" {
+		url += "&key=" + ApiKey
 	}
 
 	results, err := httpRequest(url)
