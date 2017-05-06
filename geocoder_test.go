@@ -29,13 +29,13 @@ func TestFormatAddress(t *testing.T) {
   }
 
   address = Address{
-    street: "Avenida Paulista",
-    number: 456,
-    district: "Bela Vista",
-    city: "São Paulo",
-    state: "São Paulo",
-    country: "Brasil",
-    postal_code: "01010-101",
+    Street: "Avenida Paulista",
+    Number: 456,
+    District: "Bela Vista",
+    City: "São Paulo",
+    State: "São Paulo",
+    Country: "Brasil",
+    PostalCode: "01010-101",
   }
   formatedAddress = FormatAddress(address)
 
@@ -62,36 +62,36 @@ func TestGeocoding(t *testing.T) {
   if err == nil {
     t.Error("Expected an error")
   }
-  if location.latitude != 0.0 {
+  if location.Latitude != 0.0 {
     t.Error("Expected: ", 0.0,
-            "Received:", location.latitude)
+            "Received:", location.Latitude)
   }
-  if location.longitude != 0.0 {
+  if location.Longitude != 0.0 {
     t.Error("Expected: ", 0.0,
-            "Received:", location.longitude)
+            "Received:", location.Longitude)
   }
 
   address = Address{
-    street: "Av. Paulista",
-    number: 1578,
-    district: "Bela Vista",
-    city: "Sao Paulo",
-    state: "Sao Paulo",
-    country: "Brazil",
-    postal_code: "01310-200",
+    Street: "Av. Paulista",
+    Nmber: 1578,
+    District: "Bela Vista",
+    City: "Sao Paulo",
+    State: "Sao Paulo",
+    Country: "Brazil",
+    PostalCode: "01310-200",
   }
 
   location, err = Geocoding(address)
   if err != nil {
     t.Error(err)
   }
-  if location.latitude != -23.5617633 {
+  if location.Latitude != -23.5617633 {
     t.Error("Expected: ", -23.5617633,
-            "Received:", location.latitude)
+            "Received:", location.Latitude)
   }
-  if location.longitude != -46.6560072 {
+  if location.Longitude != -46.6560072 {
     t.Error("Expected: ", -46.6560072,
-            "Received:", location.longitude)
+            "Received:", location.Longitude)
   }
 }
 
@@ -108,8 +108,8 @@ func TestGeocodingReverse(t *testing.T) {
     }
 
     location = Location{
-      latitude: -23.5617633,
-      longitude: -46.6560072,
+      Latitude: -23.5617633,
+      Longitude: -46.6560072,
     }
 
     addresses, err = GeocodingReverse(location)

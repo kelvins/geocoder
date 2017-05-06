@@ -22,21 +22,21 @@ func init() {
 
 // Address structure used in the Geocoding and GeocodingReverse functions
 type Address struct {
-	street      string
-	number      int
-	district    string
-	city        string
-	county      string
-	state       string
-	country     string
-	postal_code string
-	types       string
+	Street      string
+	Number      int
+	District    string
+	City        string
+	County      string
+	State       string
+	Country     string
+	PostalCode  string
+	Types       string
 }
 
 // Location structure used in the Geocoding and GeocodingReverse functions
 type Location struct {
-   latitude  float64
-   longitude float64
+   Latitude  float64
+   Longitude float64
 }
 
 // Format an address based on the Address structure
@@ -45,16 +45,16 @@ func FormatAddress(address Address) string {
 
 	// Creats a slice with all content from the Address struct
 	var content []string
-	if address.number > 0 {
-		content = append(content, strconv.Itoa(address.number))
+	if address.Number > 0 {
+		content = append(content, strconv.Itoa(address.Number))
 	}
-	content = append(content, address.street)
-	content = append(content, address.district)
-	content = append(content, address.postal_code)
-	content = append(content, address.city)
-	content = append(content, address.county)
-	content = append(content, address.state)
-	content = append(content, address.country)
+	content = append(content, address.Street)
+	content = append(content, address.District)
+	content = append(content, address.PostalCode)
+	content = append(content, address.City)
+	content = append(content, address.County)
+	content = append(content, address.State)
+	content = append(content, address.Country)
 
 	var formatedAddress string
 	// For each value in the content slice check if it is valid
@@ -142,8 +142,8 @@ func Geocoding(address Address) (Location, error) {
 	}
 
 	// Get the results (latitude and longitude)
-	location.latitude  = results.Results[0].Geometry.Location.Lat;
-	location.longitude = results.Results[0].Geometry.Location.Lng;
+	location.Latitude  = results.Results[0].Geometry.Location.Lat;
+	location.Longitude = results.Results[0].Geometry.Location.Lng;
 
 	return location, nil
 }
@@ -158,35 +158,35 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 
 			switch results.Results[index].AddressComponents[component].Types[0] {
 			case "route":
-				address.street = results.Results[index].AddressComponents[component].LongName
+				address.Street = results.Results[index].AddressComponents[component].LongName
 				break
 			case "street_number":
-				address.number, _ = strconv.Atoi(results.Results[index].AddressComponents[component].LongName)
+				address.Number, _ = strconv.Atoi(results.Results[index].AddressComponents[component].LongName)
 				break
 			case "locality":
-				address.district = results.Results[index].AddressComponents[component].LongName
+				address.District = results.Results[index].AddressComponents[component].LongName
 				break
 			case "administrative_area_level_3":
-				address.city = results.Results[index].AddressComponents[component].LongName
+				address.City = results.Results[index].AddressComponents[component].LongName
 				break
 			case "administrative_area_level_2":
-				address.county = results.Results[index].AddressComponents[component].LongName
+				address.County = results.Results[index].AddressComponents[component].LongName
 				break
 			case "administrative_area_level_1":
-				address.state = results.Results[index].AddressComponents[component].LongName
+				address.State = results.Results[index].AddressComponents[component].LongName
 				break
 			case "country":
-				address.country = results.Results[index].AddressComponents[component].LongName
+				address.Country = results.Results[index].AddressComponents[component].LongName
 				break
 			case "postal_code":
-				address.postal_code = results.Results[index].AddressComponents[component].LongName
+				address.PostalCode = results.Results[index].AddressComponents[component].LongName
 				break
 			default:
 				break
 			}
 		}
 
-		address.types = results.Results[index].Types[0]
+		address.Types = results.Results[index].Types[0]
 
 		addresses = append(addresses, address)
 	}
@@ -200,8 +200,8 @@ func GeocodingReverse(location Location) ([]Address, error) {
 	var addresses []Address
 
 	// Create the URL based on the formated address
-	latitude  := strconv.FormatFloat(location.latitude, 'f', 8, 64)
-	longitude := strconv.FormatFloat(location.longitude, 'f', 8, 64)
+	latitude  := strconv.FormatFloat(location.Latitude, 'f', 8, 64)
+	longitude := strconv.FormatFloat(location.Longitude, 'f', 8, 64)
 
 	url := geocodeApiUrl + "latlng=" + latitude + "," + longitude
 	if Key != "" {
