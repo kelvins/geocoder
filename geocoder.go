@@ -23,15 +23,16 @@ func init() {
 
 // Address structure used in the Geocoding and GeocodingReverse functions
 type Address struct {
-	Street     string
-	Number     int
-	District   string
-	City       string
-	County     string
-	State      string
-	Country    string
-	PostalCode string
-	Types      string
+	Street          string
+	Number          int
+	District        string
+	City            string
+	County          string
+	State           string
+	Country         string
+	PostalCode      string
+	FormatedAddress string
+	Types           string
 }
 
 // Location structure used in the Geocoding and GeocodingReverse functions
@@ -198,6 +199,7 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 			}
 		}
 
+		address.FormatedAddress = results.Results[index].FormattedAddress
 		address.Types = results.Results[index].Types[0]
 
 		addresses = append(addresses, address)
