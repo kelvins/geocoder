@@ -169,8 +169,14 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 			case "street_number":
 				address.Number, _ = strconv.Atoi(component.LongName)
 				break
-			case "locality":
+			case "sublocality":
 				address.District = component.LongName
+				break
+			case "sublocality_level_1":
+				address.District = component.LongName
+				break
+			case "locality":
+				address.City = component.LongName
 				break
 			case "administrative_area_level_3":
 				address.City = component.LongName
