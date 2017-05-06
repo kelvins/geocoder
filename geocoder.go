@@ -162,40 +162,42 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 
 		// Put each component from the AddressComponents slice in the correct field in the Address structure
 		for _, component := range results.Results[index].AddressComponents {
-
-			switch component.Types[0] {
-			case "route":
-				address.Street = component.LongName
-				break
-			case "street_number":
-				address.Number, _ = strconv.Atoi(component.LongName)
-				break
-			case "sublocality":
-				address.District = component.LongName
-				break
-			case "sublocality_level_1":
-				address.District = component.LongName
-				break
-			case "locality":
-				address.City = component.LongName
-				break
-			case "administrative_area_level_3":
-				address.City = component.LongName
-				break
-			case "administrative_area_level_2":
-				address.County = component.LongName
-				break
-			case "administrative_area_level_1":
-				address.State = component.LongName
-				break
-			case "country":
-				address.Country = component.LongName
-				break
-			case "postal_code":
-				address.PostalCode = component.LongName
-				break
-			default:
-				break
+			// Check all types of each component
+			for _, types := range component.Types {
+				switch types {
+				case "route":
+					address.Street = component.LongName
+					break
+				case "street_number":
+					address.Number, _ = strconv.Atoi(component.LongName)
+					break
+				case "sublocality":
+					address.District = component.LongName
+					break
+				case "sublocality_level_1":
+					address.District = component.LongName
+					break
+				case "locality":
+					address.City = component.LongName
+					break
+				case "administrative_area_level_3":
+					address.City = component.LongName
+					break
+				case "administrative_area_level_2":
+					address.County = component.LongName
+					break
+				case "administrative_area_level_1":
+					address.State = component.LongName
+					break
+				case "country":
+					address.Country = component.LongName
+					break
+				case "postal_code":
+					address.PostalCode = component.LongName
+					break
+				default:
+					break
+				}
 			}
 		}
 
