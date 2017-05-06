@@ -18,6 +18,12 @@ import (
 )
 
 func main() {
+	// This example should work without need of an API Key,
+	// but when you will use the API in your project you need
+	// to set your API KEY as explained here:
+	// https://developers.google.com/maps/documentation/geocoding/get-api-key
+	// geocoder.ApiKey = "YOUR_API_KEY"
+
 	address := geocoder.Address{
 		Street:  "Central Park West",
 		Number:  115,
