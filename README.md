@@ -1,5 +1,9 @@
 # Geocoder
 
+[![Build Status](https://travis-ci.org/kelvins/geocoder.svg?branch=master)](https://travis-ci.org/kelvins/geocoder)
+[![Coverage Status](https://coveralls.io/repos/github/kelvins/geocoder/badge.svg?branch=master)](https://coveralls.io/github/kelvins/geocoder?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kelvins/geocoder)](https://goreportcard.com/report/github.com/kelvins/geocoder)
+
 GoLang package that provides an easy way to use the Google Geocoding API.
 
 See more information about the **Google Geocoding API** at the following link: https://developers.google.com/maps/documentation/geocoding/start
