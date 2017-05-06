@@ -16,10 +16,10 @@ func TestFormatAddress(t *testing.T) {
   }
 
   address = Address{
-    street: "Cork Street",
-    number: 123,
-    city: "Cork",
-    country: "Ireland",
+    Street: "Cork Street",
+    Number: 123,
+    City: "Cork",
+    Country: "Ireland",
   }
   formatedAddress = FormatAddress(address)
 
@@ -45,7 +45,7 @@ func TestFormatAddress(t *testing.T) {
   }
 
   address = Address{
-    number: 789,
+    Number: 789,
   }
   formatedAddress = FormatAddress(address)
 
@@ -73,7 +73,7 @@ func TestGeocoding(t *testing.T) {
 
   address = Address{
     Street: "Av. Paulista",
-    Nmber: 1578,
+    Number: 1578,
     District: "Bela Vista",
     City: "Sao Paulo",
     State: "Sao Paulo",
