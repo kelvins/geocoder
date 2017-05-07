@@ -22,17 +22,20 @@ func init() {
 }
 
 // Address structure used in the Geocoding and GeocodingReverse functions
+// Note: The FormattedAddress field should be used only for the GeocodingReverse
+// to get the formatted address from the Google Geocoding API. It is not used in
+// the Geocoding function.
 type Address struct {
-	Street          string
-	Number          int
-	District        string
-	City            string
-	County          string
-	State           string
-	Country         string
-	PostalCode      string
-	FormatedAddress string
-	Types           string
+	Street           string
+	Number           int
+	District         string
+	City             string
+	County           string
+	State            string
+	Country          string
+	PostalCode       string
+	FormattedAddress string
+	Types            string
 }
 
 // Location structure used in the Geocoding and GeocodingReverse functions
@@ -58,20 +61,20 @@ func FormatAddress(address Address) string {
 	content = append(content, address.State)
 	content = append(content, address.Country)
 
-	var formatedAddress string
+	var formattedAddress string
 
 	// For each value in the content slice check if it is valid
-	// and add to the formatedAddress string
+	// and add to the formattedAddress string
 	for _, value := range content {
 		if value != "" {
-			if formatedAddress != "" {
-				formatedAddress += ", "
+			if formattedAddress != "" {
+				formattedAddress += ", "
 			}
-			formatedAddress += value
+			formattedAddress += value
 		}
 	}
 
-	return formatedAddress
+	return formattedAddress
 }
 
 // httpRequest function send the HTTP request, decode the JSON
@@ -129,11 +132,11 @@ func Geocoding(address Address) (Location, error) {
 	var location Location
 
 	// Convert whitespaces to +
-	formatedAddress := FormatAddress(address)
-	formatedAddress = strings.Replace(formatedAddress, " ", "+", -1)
+	formattedAddress := FormatAddress(address)
+	formattedAddress = strings.Replace(formattedAddress, " ", "+", -1)
 
 	// Create the URL based on the formated address
-	url := geocodeApiUrl + "address=" + formatedAddress
+	url := geocodeApiUrl + "address=" + formattedAddress
 
 	// Use the API Key if it was set
 	if ApiKey != "" {
@@ -201,7 +204,7 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 			}
 		}
 
-		address.FormatedAddress = results.Results[index].FormattedAddress
+		address.FormattedAddress = results.Results[index].FormattedAddress
 		address.Types = results.Results[index].Types[0]
 
 		addresses = append(addresses, address)

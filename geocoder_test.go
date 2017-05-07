@@ -35,7 +35,7 @@ func TestFormatAddress(t *testing.T) {
 	// Table tests
 	var tTests = []struct {
 		address         Address
-		formatedAddress string
+		formattedAddress string
 	}{
 		{address1, ""},
 		{address2, "123, Cork Street, Cork, Ireland"},
@@ -45,11 +45,11 @@ func TestFormatAddress(t *testing.T) {
 
 	// Test with all values from the tTests
 	for _, pair := range tTests {
-		formatedAddress := FormatAddress(pair.address)
+		formattedAddress := FormatAddress(pair.address)
 
-		if formatedAddress != pair.formatedAddress {
-			t.Error("Expected:", pair.formatedAddress,
-				"Received:", formatedAddress)
+		if formattedAddress != pair.formattedAddress {
+			t.Error("Expected:", pair.formattedAddress,
+				"Received:", formattedAddress)
 		}
 	}
 }

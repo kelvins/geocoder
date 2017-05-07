@@ -67,7 +67,7 @@ func main() {
 		//	fmt.Println(geocoder.FormatAddress(address))
 		//}
 		fmt.Println(geocoder.FormatAddress(addresses[0]))
-		fmt.Println(addresses[0].FormatedAddress)
+		fmt.Println(addresses[0].FormattedAddress)
 		fmt.Println(addresses[0].Types)
 	}
 }
