@@ -119,3 +119,112 @@ Feel free to contribute by commenting, suggesting, creating issues or sending pu
 4. Commit your changes (`git commit -am 'Some cool feature'`)
 5. Push to the branch (`git push origin master`)
 6. Create a new Pull Request
+
+## Using Goroutines
+
+With a little more effort you can use **goroutines** with **channels**:
+
+``` go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/kelvins/geocoder"
+)
+
+// Use the channels system to call the Geocoding function
+func geocodingChannel(address geocoder.Address, locationChan chan geocoder.Location, errChan chan error) {
+	fmt.Println("Entering geocodingChannel function...")
+	defer fmt.Println("Exiting geocodingChannel function...")
+
+	defer close(locationChan)
+	defer close(errChan)
+
+	location, err := geocoder.Geocoding(address)
+
+	locationChan <- location
+	errChan <- err
+}
+
+// Use the channels system to call the GeocodingReverse function
+func geocodingReverseChannel(location geocoder.Location, addressesChan chan []geocoder.Address, errChan chan error) {
+	fmt.Println("Entering geocodingReverseChannel function...")
+	defer fmt.Println("Exiting geocodingReverseChannel function...")
+
+	defer close(addressesChan)
+	defer close(errChan)
+
+	addresses, err := geocoder.GeocodingReverse(location)
+
+	addressesChan <- addresses
+	errChan <- err
+}
+
+func main() {
+	// See all Address fields in the documentation
+	address := geocoder.Address{
+		Street:  "Central Park West",
+		Number:  115,
+		City:    "New York",
+		State:   "New York",
+		Country: "United States",
+	}
+
+	// Make the channels
+	locationChan := make(chan geocoder.Location)
+	errChan := make(chan error)
+
+	// Call the go routine
+	go geocodingChannel(address, locationChan, errChan)
+
+	// Do whatever you need to do
+	for index := 0; index < 5; index++ {
+		fmt.Println(index)
+		time.Sleep(50 * time.Millisecond)
+	}
+
+	// Get the results
+	location := <-locationChan
+	err := <-errChan
+
+	// Check if the results are valid
+	if err != nil {
+		fmt.Println("Could not get the location: ", err)
+	} else {
+		fmt.Println("Latitude: ", location.Latitude)
+		fmt.Println("Longitude: ", location.Longitude)
+	}
+
+	// Set the latitude and longitude
+	location = geocoder.Location{
+		Latitude:  40.775807,
+		Longitude: -73.97632,
+	}
+
+	// Make the channels
+	addressesChan := make(chan []geocoder.Address)
+	errChan = make(chan error)
+
+	// Call the go routine
+	go geocodingReverseChannel(location, addressesChan, errChan)
+
+	// Do whatever you need to do
+	for index := 0; index < 5; index++ {
+		fmt.Println(index)
+		time.Sleep(50 * time.Millisecond)
+	}
+
+	// Get the results
+	addresses := <-addressesChan
+	err = <-errChan
+
+	// Check if the results are valid
+	if err != nil {
+		fmt.Println("Could not get the addresses: ", err)
+	} else {
+		fmt.Println(addresses[0].FormattedAddress)
+	}
+}
+```
