@@ -34,6 +34,7 @@ func main() {
 	// https://developers.google.com/maps/documentation/geocoding/get-api-key
 	// geocoder.ApiKey = "YOUR_API_KEY"
 
+	// See all Address fields in the documentation
 	address := geocoder.Address{
 		Street:  "Central Park West",
 		Number:  115,
@@ -42,6 +43,7 @@ func main() {
 		Country: "United States",
 	}
 
+	// Convert address to location (latitude, longitude)
 	location, err := geocoder.Geocoding(address)
 
 	if err != nil {
@@ -51,17 +53,22 @@ func main() {
 		fmt.Println("Longitude: ", location.Longitude)
 	}
 
+	// Set the latitude and longitude
 	location = geocoder.Location{40.775807, -73.976320}
 
+	// Convert location (latitude, longitude) to address
 	addresses, err := geocoder.GeocodingReverse(location)
 
 	if err != nil {
 		fmt.Println("Could not get the addresses: ", err)
 	} else {
-		fmt.Println("Addresses:")
-		for _, address := range addresses {
-			fmt.Println(geocoder.FormatAddress(address))
-		}
+		// Browse all results
+		//for _, address := range addresses {
+		//	fmt.Println(geocoder.FormatAddress(address))
+		//}
+		fmt.Println(geocoder.FormatAddress(addresses[0]))
+		fmt.Println(addresses[0].FormatedAddress)
+		fmt.Println(addresses[0].Types)
 	}
 }
 ```
@@ -71,17 +78,9 @@ Results:
 ```
 Latitude:  40.7758882
 Longitude:  -73.9764703
-Addresses:
-115, Central Park West, New York, 10023, New York County, New York, United States
-New York, 10023, New York County, New York, United States
-New York, New York County, New York, United States
-New York, New York County, New York, United States
-New York, New York, United States
-New York, 10023, New York County, New York, United States
-New York County, New York, United States
-United States
-United States
-New York, United States
+115, Central Park West, Manhattan, 10023, New York, New York County, New York, United States
+115 Central Park West, New York, NY 10023, USA
+street_address
 ```
 
 ## General
