@@ -54,21 +54,27 @@ func main() {
 	}
 
 	// Set the latitude and longitude
-	location = geocoder.Location{40.775807, -73.976320}
+	location = geocoder.Location{
+		Latitude:  40.775807,
+		Longitude: -73.97632,
+	}
 
-	// Convert location (latitude, longitude) to address
+	// Convert location (latitude, longitude) to a slice of addresses
 	addresses, err := geocoder.GeocodingReverse(location)
 
 	if err != nil {
 		fmt.Println("Could not get the addresses: ", err)
 	} else {
-		// Browse all results
-		//for _, address := range addresses {
-		//	fmt.Println(geocoder.FormatAddress(address))
-		//}
-		fmt.Println(geocoder.FormatAddress(addresses[0]))
-		fmt.Println(addresses[0].FormattedAddress)
-		fmt.Println(addresses[0].Types)
+		// Usually, the first address returned from the API
+		// is more detailed, so let's work with it
+		address = addresses[0]
+
+		// Print the address formatted by the geocoder package
+		fmt.Println(geocoder.FormatAddress(address))
+		// Print the formatted address from the API
+		fmt.Println(address.FormattedAddress)
+		// Print the type of the address
+		fmt.Println(address.Types)
 	}
 }
 ```
