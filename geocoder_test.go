@@ -189,8 +189,28 @@ func TestGeocodingReverse(t *testing.T) {
 						"Received Country:", addresses[0].Country)
 				}
 			} else {
-				t.Error("Expected at least 1 result Received 0 results:")
+				t.Error("Expected at least 1 result Received 0 results")
 			}
+		}
+	}
+}
+
+func TestHttpRequest(t *testing.T) {
+	// Table tests
+	var tTests = []struct {
+		url string
+		err error
+	}{
+		{"", errors.New("URL invalid")},
+		{"https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", errors.New("JSON invalid")},
+	}
+
+	// Test with all values from the tTests
+	for _, pair := range tTests {
+		_, err := httpRequest(pair.url)
+
+		if pair.err != nil && err == nil {
+			t.Error("Expected error:", pair.err, "Received: nil")
 		}
 	}
 }
