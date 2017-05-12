@@ -14,12 +14,11 @@ import (
 
 // The user should set the API KEY provided by Google
 var ApiKey string
-var geocodeApiUrl string
 
-// Define the Geocode API URL
-func init() {
+// Define the Geocode API URL as a constant
+const (
 	geocodeApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
-}
+)
 
 // Address structure used in the Geocoding and GeocodingReverse functions
 // Note: The FormattedAddress field should be used only for the GeocodingReverse
