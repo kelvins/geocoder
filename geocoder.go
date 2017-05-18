@@ -109,16 +109,34 @@ func httpRequest(url string) (structs.Results, error) {
 		return results, err
 	}
 
-	// Check if the status returned is OK
-	if strings.ToLower(results.Status) != "ok" {
-		err = errors.New("Status is not OK")
-		return results, err
-	}
-
-	// Check if we have some result to get
-	if len(results.Results) == 0 {
-		err = errors.New("No results found")
-		return results, err
+	// The "OK" status indicates that no error has occurred, it means
+	// the address was analyzed and at least one geographic code was returned
+	if strings.ToUpper(results.Status) != "OK" {
+		// If the status is not "OK" check what status was returned
+		switch strings.ToUpper(results.Status) {
+		case "ZERO_RESULTS":
+			err = errors.New("No results found.")
+			return results, err
+			break
+		case "OVER_QUERY_LIMIT":
+			err = errors.New("You are over your quota.")
+			return results, err
+			break
+		case "REQUEST_DENIED":
+			err = errors.New("Your request was denied.")
+			return results, err
+			break
+		case "INVALID_REQUEST":
+			err = errors.New("Probably the query is missing.")
+			return results, err
+			break
+		case "UNKNOWN_ERROR":
+			err = errors.New("Server error. Please, try again.")
+			return results, err
+			break
+		default:
+			break
+		}
 	}
 
 	return results, nil
