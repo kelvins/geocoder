@@ -34,7 +34,7 @@ func TestFormatAddress(t *testing.T) {
 
 	// Table tests
 	var tTests = []struct {
-		address         Address
+		address          Address
 		formattedAddress string
 	}{
 		{address1, ""},
@@ -211,6 +211,56 @@ func TestHttpRequest(t *testing.T) {
 
 		if pair.err != nil && err == nil {
 			t.Error("Expected error:", pair.err, "Received: nil")
+		}
+	}
+}
+
+func TestWithInvalidApiKey(t *testing.T) {
+	ApiKey = "0123456789abcdefghijklmnopqrstuvxyz"
+
+	address := Address{
+		Street:  "Cork Street",
+		Number:  123,
+		City:    "Cork",
+		Country: "Ireland",
+	}
+
+	// Table tests
+	var tTests1 = []struct {
+		address Address
+		err     error
+	}{
+		{address, errors.New("Request Denied")},
+	}
+
+	// Test with all values from the tTests
+	for _, pair := range tTests1 {
+		_, err := Geocoding(pair.address)
+
+		if err == nil {
+			t.Error("Expected:", pair.err, "Received: nil")
+		}
+	}
+
+	location := Location{
+		Latitude:  -23.5617633,
+		Longitude: -46.6560072,
+	}
+
+	// Table tests
+	var tTests2 = []struct {
+		location Location
+		err      error
+	}{
+		{location, errors.New("Request Denied")},
+	}
+
+	// Test with all values from the tTests
+	for _, pair := range tTests2 {
+		_, err := GeocodingReverse(pair.location)
+
+		if err == nil {
+			t.Error("Expected:", pair.err, "Received: nil")
 		}
 	}
 }
