@@ -116,30 +116,25 @@ func httpRequest(url string) (structs.Results, error) {
 		switch strings.ToUpper(results.Status) {
 		case "ZERO_RESULTS":
 			err = errors.New("No results found.")
-			return results, err
 			break
 		case "OVER_QUERY_LIMIT":
 			err = errors.New("You are over your quota.")
-			return results, err
 			break
 		case "REQUEST_DENIED":
 			err = errors.New("Your request was denied.")
-			return results, err
 			break
 		case "INVALID_REQUEST":
 			err = errors.New("Probably the query is missing.")
-			return results, err
 			break
 		case "UNKNOWN_ERROR":
 			err = errors.New("Server error. Please, try again.")
-			return results, err
 			break
 		default:
 			break
 		}
 	}
 
-	return results, nil
+	return results, err
 }
 
 // Geocoding function is used to convert an Address structure
