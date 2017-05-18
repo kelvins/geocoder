@@ -27,6 +27,7 @@ const (
 type Address struct {
 	Street           string
 	Number           int
+	Neighborhood     string
 	District         string
 	City             string
 	County           string
@@ -53,6 +54,7 @@ func FormatAddress(address Address) string {
 		content = append(content, strconv.Itoa(address.Number))
 	}
 	content = append(content, address.Street)
+	content = append(content, address.Neighborhood)
 	content = append(content, address.District)
 	content = append(content, address.PostalCode)
 	content = append(content, address.City)
@@ -185,6 +187,9 @@ func convertResultsToAddress(results structs.Results) (addresses []Address) {
 					break
 				case "street_number":
 					address.Number, _ = strconv.Atoi(component.LongName)
+					break
+				case "neighborhood":
+					address.Neighborhood = component.LongName
 					break
 				case "sublocality":
 					address.District = component.LongName
