@@ -45,7 +45,7 @@ func TestFormatAddress(t *testing.T) {
 
 	// Test with all values from the tTests
 	for _, pair := range tTests {
-		formattedAddress := FormatAddress(pair.address)
+		formattedAddress := pair.address.FormatAddress()
 
 		if formattedAddress != pair.formattedAddress {
 			t.Error("Expected:", pair.formattedAddress,

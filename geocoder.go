@@ -46,7 +46,7 @@ type Location struct {
 
 // Format an address based on the Address structure
 // Return the formated address (string)
-func FormatAddress(address Address) string {
+func (address *Address) FormatAddress() string {
 
 	// Creats a slice with all content from the Address struct
 	var content []string
@@ -146,7 +146,7 @@ func Geocoding(address Address) (Location, error) {
 	var location Location
 
 	// Convert whitespaces to +
-	formattedAddress := FormatAddress(address)
+	formattedAddress := address.FormatAddress()
 	formattedAddress = strings.Replace(formattedAddress, " ", "+", -1)
 
 	// Create the URL based on the formated address
