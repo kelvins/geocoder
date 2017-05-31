@@ -70,7 +70,7 @@ func main() {
 		address = addresses[0]
 
 		// Print the address formatted by the geocoder package
-		fmt.Println(geocoder.FormatAddress(address))
+		fmt.Println(address.FormatAddress())
 		// Print the formatted address from the API
 		fmt.Println(address.FormattedAddress)
 		// Print the type of the address
