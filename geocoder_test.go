@@ -2,6 +2,8 @@ package geocoder
 
 import (
 	"errors"
+	"os"
+	"reflect"
 	"testing"
 )
 
@@ -56,6 +58,8 @@ func TestFormatAddress(t *testing.T) {
 
 func TestGeocoding(t *testing.T) {
 
+	ApiKey = os.Getenv("API_KEY")
+
 	var address1 Address
 	var address2 Address
 
@@ -68,8 +72,8 @@ func TestGeocoding(t *testing.T) {
 	}
 
 	location2 = Location{
-		Latitude:  -23.5617633,
-		Longitude: -46.6560072,
+		Latitude:  -23.5615171,
+		Longitude: -46.655961,
 	}
 
 	address2 = Address{
@@ -120,6 +124,8 @@ func TestGeocoding(t *testing.T) {
 
 func TestGeocodingReverse(t *testing.T) {
 
+	ApiKey = os.Getenv("API_KEY")
+
 	var location1 Location
 	var location2 Location
 
@@ -133,9 +139,9 @@ func TestGeocodingReverse(t *testing.T) {
 
 	address2 = Address{
 		Street:   "Avenida Paulista",
-		Number:   1578,
+		Number:   1540,
 		District: "Bela Vista",
-		City:     "São Paulo",
+		County:   "São Paulo",
 		State:    "São Paulo",
 		Country:  "Brazil",
 	}
@@ -196,6 +202,9 @@ func TestGeocodingReverse(t *testing.T) {
 }
 
 func TestHttpRequest(t *testing.T) {
+
+	ApiKey = os.Getenv("API_KEY")
+
 	// Table tests
 	var tTests = []struct {
 		url string
@@ -262,5 +271,53 @@ func TestWithInvalidApiKey(t *testing.T) {
 		if err == nil {
 			t.Error("Expected:", pair.err, "Received: nil")
 		}
+	}
+}
+
+func TestGeocodingReverseIntl(t *testing.T) {
+	ApiKey = os.Getenv("API_KEY")
+	type args struct {
+		location Location
+		language string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Address
+		wantErr bool
+	}{
+		{
+			name: "Returns address in Ukrainian",
+			args: args{
+				Location{50.006414, 36.252432},
+				"uk",
+			},
+			want: Address{
+				Street:           "Лермонтовська вулиця",
+				Number:           7,
+				Neighborhood:     "",
+				District:         "Київський район",
+				City:             "Харківська міськрада",
+				County:           "",
+				State:            "Харківська область",
+				Country:          "Україна",
+				PostalCode:       "61000",
+				FormattedAddress: "Лермонтовська вулиця, 7, Харків, Харківська область, Україна, 61000",
+				Types:            "street_address",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GeocodingReverseIntl(tt.args.location, tt.args.language)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GeocodingReverseIntl() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if !reflect.DeepEqual(got[0], tt.want) {
+				t.Errorf("GeocodingReverseIntl() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

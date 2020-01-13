@@ -235,17 +235,7 @@ func GeocodingReverse(location Location) ([]Address, error) {
 
 	var addresses []Address
 
-	// Convert the latitude and longitude from double to string
-	latitude := strconv.FormatFloat(location.Latitude, 'f', 8, 64)
-	longitude := strconv.FormatFloat(location.Longitude, 'f', 8, 64)
-
-	// Create the URL based on latitude and longitude
-	url := geocodeApiUrl + "latlng=" + latitude + "," + longitude
-
-	// Use the API key if it was set
-	if ApiKey != "" {
-		url += "&key=" + ApiKey
-	}
+	url := getURLGeocodingReverse(location, "")
 
 	// Send the HTTP request and get the results
 	results, err := httpRequest(url)
@@ -258,4 +248,43 @@ func GeocodingReverse(location Location) ([]Address, error) {
 	addresses = convertResultsToAddress(results)
 
 	return addresses, nil
+}
+
+func GeocodingReverseIntl(location Location, language string) ([]Address, error) {
+
+	var addresses []Address
+
+	url := getURLGeocodingReverse(location, language)
+
+	// Send the HTTP request and get the results
+	results, err := httpRequest(url)
+	if err != nil {
+		log.Println(err)
+		return addresses, err
+	}
+
+	// Convert the results to an Address slice called addresses
+	addresses = convertResultsToAddress(results)
+
+	return addresses, nil
+}
+
+func getURLGeocodingReverse(location Location, language string) string {
+	// Convert the latitude and longitude from double to string
+	latitude := strconv.FormatFloat(location.Latitude, 'f', 8, 64)
+	longitude := strconv.FormatFloat(location.Longitude, 'f', 8, 64)
+
+	// Create the URL based on latitude and longitude
+	url := geocodeApiUrl + "latlng=" + latitude + "," + longitude
+
+	// Use the API key if it was set
+	if ApiKey != "" {
+		url += "&key=" + ApiKey
+	}
+
+	if language != "" {
+		url += "&language=" + language
+	}
+
+	return url
 }
