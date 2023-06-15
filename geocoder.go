@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kelvins/geocoder/structs"
+	"github.com/DevX86/geocoder/structs"
 )
 
 // ApiKey The user should set the API KEY provided by Google
@@ -121,10 +121,10 @@ func httpRequest(url string) (structs.Results, error) {
 			err = errors.New("You are over your quota.")
 			break
 		case "REQUEST_DENIED":
-			err = errors.New("Your request was denied.")
+			err = errors.New(results.ErrorMessage)
 			break
 		case "INVALID_REQUEST":
-			err = errors.New("Probably the query is missing.")
+			err = errors.New(results.ErrorMessage)
 			break
 		case "UNKNOWN_ERROR":
 			err = errors.New("Server error. Please, try again.")

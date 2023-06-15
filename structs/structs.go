@@ -4,8 +4,9 @@ package structs
 
 // All results from the JSON
 type Results struct {
-	Results []Result `json:"results"`
-	Status  string   `json:"status"`
+	Results      []Result `json:"results"`
+	Status       string   `json:"status"`
+	ErrorMessage string   `json:"error_message"`
 }
 
 // Result store each result from the JSON
