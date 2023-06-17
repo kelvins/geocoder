@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gpsinsight/geocoder/structs"
+	"github.com/kelvins/geocoder/structs"
 )
 
 // ApiKey The user should set the API KEY provided by Google
