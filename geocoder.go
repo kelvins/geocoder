@@ -15,8 +15,8 @@ import (
 // ApiKey The user should set the API KEY provided by Google
 var ApiKey string
 
-// GeocodeApiUrl The user should set the API URL with the default value being provided by Google.
-var GeocodeApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
+// ApiUrl The user should set the API URL with the default value being provided by Google.
+var ApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
 
 // Address structure used in the Geocoding and GeocodingReverse functions
 // Note: The FormattedAddress field should be used only for the GeocodingReverse
@@ -148,7 +148,7 @@ func Geocoding(address Address) (Location, error) {
 	formattedAddress = strings.Replace(formattedAddress, " ", "+", -1)
 
 	// Create the URL based on the formated address
-	url := GeocodeApiUrl + "address=" + formattedAddress
+	url := ApiUrl + "address=" + formattedAddress
 
 	// Use the API Key if it was set
 	if ApiKey != "" {
@@ -273,7 +273,7 @@ func getURLGeocodingReverse(location Location, language string) string {
 	longitude := strconv.FormatFloat(location.Longitude, 'f', 8, 64)
 
 	// Create the URL based on latitude and longitude
-	url := GeocodeApiUrl + "latlng=" + latitude + "," + longitude
+	url := ApiUrl + "latlng=" + latitude + "," + longitude
 
 	// Use the API key if it was set
 	if ApiKey != "" {
